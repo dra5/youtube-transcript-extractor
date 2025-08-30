@@ -6,13 +6,14 @@
 
 ## 🚀 Project Overview
 
-This is a simple Streamlit web application that allows users to extract transcripts from YouTube videos. Just provide a YouTube video URL, select your desired language, and get the clean text transcript without timestamps.
+This is a simple Streamlit web application that allows users to extract transcripts from YouTube videos. Just provide a YouTube video URL, select your desired language, and get the clean text transcript without timestamps. This app also includes a feature to organize the extracted text using the Gemini API.
 
 ## ✨ Features
 
 *   **Extracts transcripts** from YouTube videos.
 *   **Supports multiple languages**, including auto-generated captions.
 *   **Removes timestamps** for a clean text output.
+*   **Organizes extracted text** using the Gemini API (2.0 flash lite model).
 *   **User-friendly interface** built with Streamlit.
 
 ## 🛠️ Tech Stack
@@ -20,6 +21,7 @@ This is a simple Streamlit web application that allows users to extract transcri
 *   **Python**
 *   **Streamlit**
 *   **youtube-transcript-api**
+*   **google-generativeai**
 
 ## ⚙️ Local Setup
 
@@ -48,16 +50,20 @@ To run this application locally:
     ```
     streamlit
     youtube-transcript-api
+    google-generativeai
     ```
 
-4.  **Run the Streamlit app**:
+4.  **Get your Gemini API Key**:
+    You will need a Gemini API key to use the text organization feature. You can get one from [Google AI Studio](https://aistudio.google.com/).
+
+5.  **Run the Streamlit app**:
     ```bash
-    streamlit run youtube_transcript_app.py
+    streamlit run app.py
     ```
 
 ## 🚀 Deployment (e.g., Streamlit Cloud)
 
-This app can be easily deployed to platforms like Streamlit Cloud. Ensure all necessary files (`youtube_transcript_app.py`, `requirements.txt`) are pushed to your GitHub repository.
+This app can be easily deployed to platforms like Streamlit Cloud. Ensure all necessary files (`app.py`, `requirements.txt`) are pushed to your GitHub repository. You will also need to configure your Gemini API key as a secret in your Streamlit Cloud settings.
 
 ## 🤝 Contributing
 
