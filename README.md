@@ -6,14 +6,15 @@
 
 ## 🚀 Project Overview
 
-This is a simple Streamlit web application that allows users to extract transcripts from YouTube videos. Just provide a YouTube video URL, select your desired language, and get the clean text transcript without timestamps. This app also includes a feature to organize the extracted text using the Gemini API.
+This is a simple Streamlit web application that allows users to extract transcripts from YouTube videos (including Shorts). Just provide a YouTube video URL, select your desired language, and get the clean text transcript. This app also includes features to organize the extracted text and chat about the video's content using the Gemini API.
 
 ## ✨ Features
 
-*   **Extracts transcripts** from YouTube videos.
+*   **Extracts transcripts** from standard YouTube videos and Shorts.
 *   **Supports multiple languages**, including auto-generated captions.
 *   **Removes timestamps** for a clean text output.
-*   **Organizes extracted text** using the Gemini API (2.0 flash lite model).
+*   **Organizes extracted text** into a structured summary using the Gemini API (`gemini-2.0-flash-lite`).
+*   **Chat with the transcript** to ask questions and get insights about the video content.
 *   **User-friendly interface** built with Streamlit.
 
 ## 🛠️ Tech Stack
@@ -22,6 +23,7 @@ This is a simple Streamlit web application that allows users to extract transcri
 *   **Streamlit**
 *   **youtube-transcript-api**
 *   **google-generativeai**
+*   **python-dotenv**
 
 ## ⚙️ Local Setup
 
@@ -46,15 +48,14 @@ To run this application locally:
     ```bash
     pip install -r requirements.txt
     ```
-    `requirements.txt` contains:
-    ```
-    streamlit
-    youtube-transcript-api
-    google-generativeai
-    ```
 
-4.  **Get your Gemini API Key**:
-    You will need a Gemini API key to use the text organization feature. You can get one from [Google AI Studio](https://aistudio.google.com/).
+4.  **Set up your Gemini API Key**:
+    *   Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/).
+    *   Create a file named `.env` in the project's root directory.
+    *   Add your API key to the `.env` file like this:
+        ```
+        GEMINI_API_KEY="YOUR_API_KEY_HERE"
+        ```
 
 5.  **Run the Streamlit app**:
     ```bash
@@ -63,7 +64,7 @@ To run this application locally:
 
 ## 🚀 Deployment (e.g., Streamlit Cloud)
 
-This app can be easily deployed to platforms like Streamlit Cloud. Ensure all necessary files (`app.py`, `requirements.txt`) are pushed to your GitHub repository. You will also need to configure your Gemini API key as a secret in your Streamlit Cloud settings.
+This app can be easily deployed to platforms like Streamlit Cloud. Ensure all necessary files (`app.py`, `requirements.txt`, `.gitignore`) are pushed to your GitHub repository. You will also need to configure your `GEMINI_API_KEY` as a secret in your Streamlit Cloud settings.
 
 ## 🤝 Contributing
 
@@ -71,6 +72,4 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
+This project is licensed under the MIT License.

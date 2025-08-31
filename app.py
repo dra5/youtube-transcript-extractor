@@ -40,10 +40,11 @@ def organize_text_with_gemini(text, api_key):
     try:
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel('gemini-2.0-flash-lite')
-        prompt = """Please analyze the following video transcript and provide a structured summary:
+        prompt = """Please analyze the following video transcript and provide a piece of organized content with the following structure:
 
-1.  **Executive Summary:** (2-3 sentences providing a high-level overview of the video's purpose and key takeaways)
-2.  **Detailed Breakdown:**  Organize the transcript into coherent paragraphs, elaborating on the key points. Remove any filler words, greetings, or repetitive phrases that do not contribute to a clear understanding of the video's core message.
+1.  **Title:** (A concise and descriptive title for the video)
+2.  **Executive Summary:** (2-3 sentences providing a high-level overview of the video's purpose and key takeaways)
+3.  **Detailed Breakdown:**  Organize the transcript into coherent paragraphs, elaborating on the key points. Remove any filler words, greetings, or repetitive phrases that do not contribute to a clear understanding of the video's core message.
 
 Transcript content: """
         response = model.generate_content(prompt + text)
@@ -58,18 +59,11 @@ def chat_with_gemini(context, api_key):
     if "chat_history" not in st.session_state:
         st.session_state["chat_history"] = []
 
-    # Display previous chat messages
-    for message in st.session_state["chat_history"]:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-
     # Get user input
     user_input = st.chat_input("Ask something about the video...")
     if user_input:
         # Append user message to chat history and display it
         st.session_state["chat_history"].append({"role": "user", "content": user_input})
-        with st.chat_message("user"):
-            st.markdown(user_input)
 
         try:
             genai.configure(api_key=api_key)
@@ -86,12 +80,15 @@ def chat_with_gemini(context, api_key):
 
             # Append assistant response to chat history and display it
             st.session_state["chat_history"].append({"role": "assistant", "content": answer})
-            with st.chat_message("assistant"):
-                st.markdown(answer)
 
         except Exception as e:
             st.error(f"Gemini Q&A Error: {e}")
             return None
+
+    # Display previous chat messages (in reverse order)
+    for message in reversed(st.session_state["chat_history"]):
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
 # Process YouTube URL if provided
 if youtube_url:
