@@ -35,16 +35,22 @@ def get_youtube_id(url):
         return match.group(1)
     return None
 
+@st.cache_resource
+def get_gemini_model(api_key):
+    """Returns a cached instance of the Gemini model."""
+    genai.configure(api_key=api_key)
+    return genai.GenerativeModel('gemini-1.5-flash-latest')
+
+
 def organize_text_with_gemini(text, api_key):
     """Process transcript using Gemini AI API."""
     try:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-2.0-flash-lite')
+        model = get_gemini_model(api_key)
         prompt = """Please analyze the following video transcript and provide a piece of organized content with the following structure:
 
 1.  **Title:** (A concise and descriptive title for the video)
 2.  **Executive Summary:** (2-3 sentences providing a high-level overview of the video's purpose and key takeaways)
-3.  **Detailed Breakdown:**  Organize the transcript into coherent paragraphs, elaborating on the key points. Remove any filler words, greetings, or repetitive phrases that do not contribute to a clear understanding of the video's core message.
+3.  **Detailed Breakdown:**  Organize the transcript into coherent paragraphs, elaborating on the key points. Each paragraph must have a subtitle. Remove any filler words, greetings, or repetitive phrases that do not contribute to a clear understanding of the video's core message.
 
 Transcript content: """
         response = model.generate_content(prompt + text)
@@ -66,8 +72,7 @@ def chat_with_gemini(context, api_key):
         st.session_state["chat_history"].append({"role": "user", "content": user_input})
 
         try:
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-2.0-flash-lite')
+            model = get_gemini_model(api_key)
             # Construct prompt with context and chat history
             conversation = f"Transcript:\n{context}\n\n"
             for msg in st.session_state["chat_history"]:
